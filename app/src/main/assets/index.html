@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>Galaxy Icon HTML to APK Builder</title>
+<style>
+:root{--bg:#0b1220;--card:#131c31;--line:#243049;--txt:#e8eefc;--mut:#8fa0c4;--pri:#4f8cff;--pri2:#7c5cff;--ok:#22c55e;--err:#ef4444;--warn:#f59e0b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Noto Sans Bengali","Segoe UI",sans-serif;line-height:1.5;padding:0 0 40px}
+header{padding:22px 16px 14px;text-align:center;background:linear-gradient(135deg,#16254a,#1b1840);border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:21px;letter-spacing:.3px}
+header p{margin:6px 0 0;color:var(--mut);font-size:13px}
+main{max-width:720px;margin:0 auto;padding:14px 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+.card h2{margin:0 0 12px;font-size:16px;display:flex;align-items:center;gap:8px}
+.num{background:linear-gradient(135deg,var(--pri),var(--pri2));width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+label{display:block;font-size:13px;color:var(--mut);margin:10px 0 5px}
+input[type=text],input[type=number],input[type=password],select,textarea{width:100%;background:#0c1426;color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:15px;outline:none;font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:var(--pri)}
+textarea{min-height:110px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.drop{border:2px dashed #35456a;border-radius:14px;padding:22px 12px;text-align:center;cursor:pointer;background:#0c1426;transition:.2s}
+.drop.on{border-color:var(--pri);background:#101b35}
+.drop b{display:block;font-size:15px;margin-bottom:4px}
+.drop small{color:var(--mut)}
+button,.btn{appearance:none;border:0;border-radius:12px;padding:13px 16px;font-size:15px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--pri),var(--pri2));width:100%;cursor:pointer;display:block;text-align:center;text-decoration:none;font-family:inherit}
+button.sec{background:#1d2a47;border:1px solid var(--line)}
+button:disabled{opacity:.5}
+.btns{display:grid;gap:10px;margin-top:14px}
+.chk{display:flex;align-items:center;gap:10px;margin:10px 0;font-size:14px;color:var(--txt)}
+.chk input{width:20px;height:20px;accent-color:var(--pri)}
+.iconrow{display:flex;gap:14px;align-items:center}
+#iconPrev{width:72px;height:72px;border-radius:16px;border:1px solid var(--line);background:#0c1426}
+.pill{display:inline-block;font-size:12px;padding:3px 9px;border-radius:99px;background:#0c1426;border:1px solid var(--line);color:var(--mut);margin-top:8px}
+.pill.ok{color:var(--ok);border-color:#1d5a37}
+iframe{width:100%;height:340px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.tab{padding:11px;text-align:center;border-radius:11px;background:#0c1426;border:1px solid var(--line);font-size:14px;cursor:pointer;font-weight:600;color:var(--mut)}
+.tab.on{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;border-color:transparent}
+.hide{display:none!important}
+.note{font-size:12.5px;color:var(--mut);background:#0c1426;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:10px}
+.note a{color:#7fb0ff}
+.steps{list-style:none;padding:0;margin:14px 0 0}
+.steps li{display:flex;gap:10px;align-items:center;padding:8px 0;font-size:14px;color:var(--mut);border-bottom:1px dashed var(--line)}
+.steps li:last-child{border:0}
+.dot{width:18px;height:18px;border-radius:50%;border:2px solid #35456a;flex:none}
+.steps li.run{color:var(--txt)}.steps li.run .dot{border-color:var(--pri);border-top-color:transparent;animation:sp 1s linear infinite}
+.steps li.done{color:var(--txt)}.steps li.done .dot{background:var(--ok);border-color:var(--ok)}
+.steps li.fail{color:var(--err)}.steps li.fail .dot{background:var(--err);border-color:var(--err)}
+@keyframes sp{to{transform:rotate(360deg)}}
+#log{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:#070d1a;border:1px solid var(--line);border-radius:10px;padding:10px;max-height:160px;overflow:auto;white-space:pre-wrap;color:#9fb3da;margin-top:12px}
+.result{margin-top:14px;text-align:center}
+.result .btn{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.err{color:var(--err);font-size:13px;margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+  <h1>📱 Galaxy Icon HTML to APK Builder</h1>
+  <p>আপনার HTML ফাইল আপলোড করুন, কিছুক্ষণের মধ্যেই ইনস্টলযোগ্য APK পান</p>
+</header>
+
+<main>
+  <!-- STEP 1 -->
+  <section class="card">
+    <h2><span class="num">1</span> HTML ফাইল</h2>
+    <div class="tabs">
+      <div class="tab on" id="tabFile">ফাইল আপলোড</div>
+      <div class="tab" id="tabPaste">কোড পেস্ট</div>
+    </div>
+    <div id="paneFile">
+      <div class="drop" id="drop">
+        <b>📂 এখানে ট্যাপ করে HTML ফাইল বাছুন</b>
+        <small>.html / .htm (সব CSS, JS একই ফাইলে থাকতে হবে)</small>
+      </div>
+      <input type="file" id="fileIn" accept=".html,.htm,text/html" class="hide">
+    </div>
+    <div id="panePaste" class="hide">
+      <textarea id="paste" placeholder="এখানে আপনার পুরো HTML কোড পেস্ট করুন..."></textarea>
+      <div class="btns"><button class="sec" id="usePaste">এই কোড ব্যবহার করুন</button></div>
+    </div>
+    <span class="pill" id="fileInfo">কোনো ফাইল বাছা হয়নি</span>
+    <label class="chk" style="margin-top:12px"><input type="checkbox" id="autoVp" checked> মোবাইল viewport meta না থাকলে নিজে যোগ করুন</label>
+    <label class="chk"><input type="checkbox" id="stripKeys" checked> কোডে API Key থাকলে অটো সরিয়ে অ্যাপে ইনপুট ঘর দিন</label>
+    <div id="secNote" class="note hide"></div>
+    <div id="previewWrap" class="hide" style="margin-top:10px">
+      <label style="margin-top:0">প্রিভিউ</label>
+      <iframe id="preview" sandbox="allow-scripts allow-forms allow-modals"></iframe>
+    </div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="card">
+    <h2><span class="num">2</span> অ্যাপের তথ্য</h2>
+    <label>অ্যাপের নাম</label>
+    <input type="text" id="appName" value="My App" maxlength="40">
+    <label>প্যাকেজ নেম (ইউনিক হতে হবে)</label>
+    <input type="text" id="pkg" autocapitalize="off" autocomplete="off" spellcheck="false">
+    <div class="row">
+      <div><label>ভার্সন নাম</label><input type="text" id="vName" value="1.0"></div>
+      <div><label>ভার্সন কোড</label><input type="number" id="vCode" value="1" min="1"></div>
+    </div>
+    <div class="row">
+      <div><label>স্ক্রিন ঘোরানো</label>
+        <select id="orient"><option value="unspecified">অটো</option><option value="portrait">শুধু Portrait</option><option value="landscape">শুধু Landscape</option></select>
+      </div>
+      <div><label>স্ট্যাটাস বার রং</label><input type="text" id="color" value="#0f172a" maxlength="7"></div>
+    </div>
+    <label class="chk"><input type="checkbox" id="fullscreen"> ফুলস্ক্রিন মোড (স্ট্যাটাস বার লুকানো)</label>
+    <label>অ্যাপ আইকন (ঐচ্ছিক, PNG/JPG)</label>
+    <div class="iconrow">
+      <canvas id="iconPrev" width="96" height="96"></canvas>
+      <div style="flex:1">
+        <button class="sec" id="pickIcon" type="button">🖼️ আইকন বাছুন</button>
+        <input type="file" id="iconIn" accept="image/*" class="hide">
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="card">
+    <h2><span class="num">3</span> APK তৈরি করুন</h2>
+    <div class="tabs">
+      <div class="tab on" id="tabAuto">অটো বিল্ড (GitHub)</div>
+      <div class="tab" id="tabZip">প্রজেক্ট ZIP</div>
+    </div>
+
+    <div id="paneAuto">
+      <div class="note">
+        APK বানাতে Android বিল্ড টুল দরকার, যা ফোনের ব্রাউজারে চলে না। তাই এই টুল আপনার নিজের ফ্রি GitHub অ্যাকাউন্টে বিল্ড চালিয়ে APK ডাউনলোড লিংক দেয়। আপনার টোকেন শুধু <b>api.github.com</b>-এ যায়, অন্য কোথাও না।
+        <br>টোকেন বানান: <a href="https://github.com/settings/tokens/new?scopes=repo,workflow&description=APK%20Builder" target="_blank" rel="noopener">এই লিংকে গিয়ে</a> “Generate token” চাপুন (repo + workflow অনুমতি আগে থেকেই টিক দেওয়া থাকবে)।
+      </div>
+      <label>GitHub টোকেন</label>
+      <input type="password" id="token" placeholder="ghp_xxxxxxxx" autocomplete="off">
+      <label class="chk"><input type="checkbox" id="remember"> এই ডিভাইসে টোকেন মনে রাখুন</label>
+      <label>রিপোজিটরির নাম (না থাকলে নিজে তৈরি হবে)</label>
+      <input type="text" id="repo" autocapitalize="off" spellcheck="false">
+      <div class="btns"><button id="buildBtn">🚀 APK বিল্ড শুরু করুন</button></div>
+
+      <ul class="steps hide" id="steps">
+        <li data-s="auth"><span class="dot"></span>GitHub-এ লগইন যাচাই</li>
+        <li data-s="repo"><span class="dot"></span>রিপোজিটরি তৈরি</li>
+        <li data-s="push"><span class="dot"></span>প্রজেক্ট ফাইল আপলোড</li>
+        <li data-s="run"><span class="dot"></span>বিল্ড চালু করা</li>
+        <li data-s="wait"><span class="dot"></span>APK তৈরি হচ্ছে (৩–৬ মিনিট)</li>
+      </ul>
+      <div id="log" class="hide"></div>
+      <div class="result hide" id="result"></div>
+      <div class="err" id="err"></div>
+    </div>
+
+    <div id="paneZip" class="hide">
+      <div class="note">এখানে পুরো Android Studio প্রজেক্ট ZIP আকারে নামবে। ZIP-এ GitHub Actions ফাইলও আছে, তাই এক্সট্র্যাক্ট করে যেকোনো GitHub রিপোতে আপলোড করলেই APK বিল্ড হবে। কম্পিউটারে Android Studio থাকলে সরাসরি খুলেও বিল্ড করতে পারেন।</div>
+      <div class="btns"><button id="zipBtn">⬇️ প্রজেক্ট ZIP ডাউনলোড</button></div>
+      <div class="err" id="err2"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>ℹ️ জেনে রাখুন</h2>
+    <div class="note" style="margin-top:0">
+      • APK ইনস্টলের সময় ফোনে “অজানা সোর্স থেকে ইনস্টল” অনুমতি দিতে হবে।<br>
+      • এটি ডিবাগ-সাইনড APK, ব্যক্তিগত ব্যবহার ও টেস্টের জন্য ঠিক আছে। Play Store-এ দিতে চাইলে আলাদা রিলিজ সাইনিং লাগবে।<br>
+      • আপনার HTML অ্যাপের ভেতরে ফাইল হিসেবে থাকে, তাই ইন্টারনেট ছাড়াও চলে (CDN লাইব্রেরি ছাড়া)।<br>
+      • রিপোজিটরি ডিফল্টভাবে Public হয়, যাতে ডাউনলোড লিংক সরাসরি কাজ করে।
+    </div>
+  </section>
+</main>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const enc = new TextEncoder();
+let htmlText = "";
+let iconImg = null;
+
+/* ---------- Tabs ---------- */
+function tabs(a, b, pa, pb) {
+  $(a).onclick = () => { $(a).classList.add("on"); $(b).classList.remove("on"); $(pa).classList.remove("hide"); $(pb).classList.add("hide"); };
+  $(b).onclick = () => { $(b).classList.add("on"); $(a).classList.remove("on"); $(pb).classList.remove("hide"); $(pa).classList.add("hide"); };
+}
+tabs("tabFile", "tabPaste", "paneFile", "panePaste");
+tabs("tabAuto", "tabZip", "paneAuto", "paneZip");
+
+/* ---------- Helpers ---------- */
+const slugify = s => (s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")) || "webapp";
+const xe = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "\\'");
+const rand = () => Math.random().toString(36).slice(2, 7).replace(/[^a-z]/g, "x");
+
+function suggestIds() {
+  const name = $("appName").value.trim() || "My App";
+  const s = slugify(name).replace(/-/g, "");
+  if (!$("pkg").dataset.touched) $("pkg").value = "com.webapp." + (/^[a-z]/.test(s) ? s : "app" + s) + rand();
+  if (!$("repo").dataset.touched) $("repo").value = slugify(name) + "-apk";
+}
+$("pkg").addEventListener("input", () => $("pkg").dataset.touched = "1");
+$("repo").addEventListener("input", () => $("repo").dataset.touched = "1");
+$("appName").addEventListener("change", () => { drawIcon(); suggestIds(); });
+$("color").addEventListener("change", drawIcon);
+suggestIds();
+
+/* ---------- HTML loading ---------- */
+function setHtml(text, label) {
+  htmlText = text;
+  $("fileInfo").textContent = "✓ " + label + " (" + (enc.encode(text).length / 1024).toFixed(1) + " KB)";
+  $("fileInfo").classList.add("ok");
+  $("previewWrap").classList.remove("hide");
+  $("preview").srcdoc = prepared();
+  showSecrets();
+  const t = text.match(/<title[^>]*>([^<]{1,40})<\/title>/i);
+  if (t && $("appName").value === "My App") { $("appName").value = t[1].trim(); drawIcon(); suggestIds(); }
+}
+function prepared() {
+  let t = htmlText;
+  if ($("autoVp").checked && !/<meta[^>]+name=["']?viewport/i.test(t)) {
+    const tag = '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">';
+    if (/<head[^>]*>/i.test(t)) t = t.replace(/<head[^>]*>/i, m => m + tag);
+    else if (/<html[^>]*>/i.test(t)) t = t.replace(/<html[^>]*>/i, m => m + "<head>" + tag + "</head>");
+    else t = tag + t;
+  }
+  return t;
+}
+$("autoVp").addEventListener("change", () => { if (htmlText) $("preview").srcdoc = prepared(); });
+
+/* ---------- Secret (API key) detection ---------- */
+const SECRET_PATTERNS = [
+  /AIza[0-9A-Za-z_\-]{35}/g,
+  /sk-[A-Za-z0-9_\-]{20,}/g,
+  /gsk_[A-Za-z0-9]{20,}/g,
+  /hf_[A-Za-z0-9]{30,}/g,
+  /github_pat_[A-Za-z0-9_]{30,}/g,
+  /gh[pousr]_[A-Za-z0-9]{30,}/g,
+  /xox[baprs]-[A-Za-z0-9\-]{10,}/g,
+  /AKIA[0-9A-Z]{16}/g,
+  /(?:sk|rk|pk)_live_[A-Za-z0-9]{16,}/g
+];
+const GENERIC_SECRET = /(?:api[_-]?key|apikey|secret|access[_-]?token|auth[_-]?token|token)["']?\s*[:=]\s*["']([A-Za-z0-9_\-.\/+=]{20,200})["']/gi;
+function scanSecrets(text) {
+  const found = [];
+  const add = v => { if (v && !found.includes(v)) found.push(v); };
+  for (const re of SECRET_PATTERNS) { re.lastIndex = 0; let m; while ((m = re.exec(text))) add(m[0]); }
+  GENERIC_SECRET.lastIndex = 0; let g;
+  while ((g = GENERIC_SECRET.exec(text))) add(g[1]);
+  return found.sort((a, b) => b.length - a.length);
+}
+const phName = i => "__KEY_" + (i + 1) + "__";
+function stripSecrets(text, list) {
+  let t = text;
+  list.forEach((v, i) => { t = t.split(v).join(phName(i)); });
+  return t;
+}
+function showSecrets() {
+  const box = $("secNote");
+  if (!htmlText) { box.classList.add("hide"); return; }
+  const list = scanSecrets(htmlText);
+  if (!list.length) { box.classList.add("hide"); return; }
+  box.classList.remove("hide");
+  const masked = list.map(v => v.slice(0, 4) + "****").join(", ");
+  box.textContent = $("stripKeys").checked
+    ? "🔐 " + list.length + "টি গোপন কী পাওয়া গেছে (" + masked + "). বিল্ডের সময় এগুলো কোড থেকে সরানো হবে; অ্যাপ প্রথমবার খুললে কী চাইবে এবং ফোনে সেভ রাখবে। প্রিভিউ আগের মতোই কাজ করবে।"
+    : "⚠️ " + list.length + "টি গোপন কী পাওয়া গেছে (" + masked + "). অটো সরানো বন্ধ থাকলে GitHub আপলোড আটকে দিতে পারে।";
+}
+$("stripKeys").addEventListener("change", showSecrets);
+$("drop").onclick = () => $("fileIn").click();
+$("drop").addEventListener("dragover", e => { e.preventDefault(); $("drop").classList.add("on"); });
+$("drop").addEventListener("dragleave", () => $("drop").classList.remove("on"));
+$("drop").addEventListener("drop", e => { e.preventDefault(); $("drop").classList.remove("on"); if (e.dataTransfer.files[0]) readFile(e.dataTransfer.files[0]); });
+$("fileIn").onchange = e => { if (e.target.files[0]) readFile(e.target.files[0]); };
+function readFile(f) {
+  const r = new FileReader();
+  r.onload = () => setHtml(String(r.result), f.name);
+  r.onerror = () => alert("ফাইল পড়া যায়নি");
+  r.readAsText(f, "utf-8");
+}
+$("usePaste").onclick = () => {
+  const v = $("paste").value.trim();
+  if (!v) return alert("আগে কোড পেস্ট করুন");
+  setHtml(v, "পেস্ট করা কোড");
+};
+
+/* ---------- Icon ---------- */
+function drawTo(canvas, size) {
+  canvas.width = canvas.height = size;
+  const c = canvas.getContext("2d");
+  if (iconImg) {
+    const m = Math.min(iconImg.width, iconImg.height);
+    c.drawImage(iconImg, (iconImg.width - m) / 2, (iconImg.height - m) / 2, m, m, 0, 0, size, size);
+  } else {
+    const g = c.createLinearGradient(0, 0, size, size);
+    g.addColorStop(0, "#4f8cff"); g.addColorStop(1, "#7c5cff");
+    c.fillStyle = g; c.fillRect(0, 0, size, size);
+    c.fillStyle = "#fff"; c.font = "700 " + Math.round(size * 0.55) + "px system-ui,sans-serif";
+    c.textAlign = "center"; c.textBaseline = "middle";
+    const ch = ($("appName").value.trim()[0] || "A").toUpperCase();
+    c.fillText(ch, size / 2, size / 2 + size * 0.03);
+  }
+}
+function drawIcon() { drawTo($("iconPrev"), 96); }
+drawIcon();
+$("pickIcon").onclick = () => $("iconIn").click();
+$("iconIn").onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  const url = URL.createObjectURL(f), im = new Image();
+  im.onload = () => { iconImg = im; drawIcon(); };
+  im.onerror = () => alert("ছবি পড়া যায়নি");
+  im.src = url;
+};
+function iconPng(size) {
+  return new Promise(res => {
+    const cv = document.createElement("canvas"); drawTo(cv, size);
+    cv.toBlob(b => b.arrayBuffer().then(ab => res(new Uint8Array(ab))), "image/png");
+  });
+}
+
+/* ---------- Validation ---------- */
+function readConfig() {
+  const name = $("appName").value.trim();
+  const pkg = $("pkg").value.trim();
+  const color = $("color").value.trim();
+  const vc = parseInt($("vCode").value, 10);
+  if (!htmlText) throw new Error("আগে HTML ফাইল বা কোড দিন (ধাপ ১)");
+  if (!name) throw new Error("অ্যাপের নাম দিন");
+  if (!/^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$/.test(pkg)) throw new Error("প্যাকেজ নেম ঠিক নয়। ছোট হাতের ইংরেজি অক্ষর ও ডট ব্যবহার করুন, যেমন com.example.myapp");
+  if (!/^#[0-9a-fA-F]{6}$/.test(color)) throw new Error("রং #RRGGBB ফরম্যাটে দিন, যেমন #0f172a");
+  if (!(vc >= 1)) throw new Error("ভার্সন কোড ১ বা তার বেশি হতে হবে");
+  const vn = $("vName").value.trim() || "1.0";
+  return { name, pkg, color, vc, vn, orient: $("orient").value, full: $("fullscreen").checked, strip: $("stripKeys").checked };
+}
+
+/* ---------- Android project templates ---------- */
+async function buildProject(cfg) {
+  const slug = slugify(cfg.name);
+  const pkgPath = cfg.pkg.replace(/\./g, "/");
+  const secrets = cfg.strip ? scanSecrets(htmlText) : [];
+  const phArr = "new String[]{" + secrets.map((v, i) => JSON.stringify(phName(i))).join(", ") + "}";
+  const hintArr = "new String[]{" + secrets.map(v => JSON.stringify("API Key (" + v.slice(0, 4) + "****)")).join(", ") + "}";
+  const files = [];
+  const T = (path, text) => files.push({ name: path, data: enc.encode(text) });
+
+  T("settings.gradle",
+`pluginManagement {
+    repositories { google(); mavenCentral(); gradlePluginPortal() }
+}
+dependencyResolutionManagement {
+    repositories { google(); mavenCentral() }
+}
+rootProject.name = "WebApp"
+include ':app'
+`);
+  T("build.gradle",
+`plugins {
+    id 'com.android.application' version '8.5.2' apply false
+}
+`);
+  T("gradle.properties",
+`org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+android.useAndroidX=false
+android.nonTransitiveRClass=true
+`);
+  T("app/build.gradle",
+`plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace '${cfg.pkg}'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId '${cfg.pkg}'
+        minSdk 21
+        targetSdk 34
+        versionCode ${cfg.vc}
+        versionName "${cfg.vn.replace(/[\\"$]/g, "")}"
+    }
+
+    buildTypes {
+        release { minifyEnabled false }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+`);
+  T("app/src/main/AndroidManifest.xml",
+`<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
+        android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:screenOrientation="${cfg.orient}"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard|screenLayout|smallestScreenSize|uiMode">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+`);
+  T("app/src/main/res/values/strings.xml",
+`<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">${xe(cfg.name)}</string>
+</resources>
+`);
+  T("app/src/main/java/" + pkgPath + "/MainActivity.java",
+`package ${cfg.pkg};
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.widget.EditText;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
+import android.webkit.DownloadListener;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+public class MainActivity extends Activity {
+
+    private static final boolean FULLSCREEN = ${cfg.full};
+    private static final int FILE_CHOOSER = 1001;
+    private static final String[] PH = ${phArr};
+    private static final String[] HINT = ${hintArr};
+
+    private WebView web;
+    private ValueCallback<Uri[]> fileCallback;
+
+    @SuppressLint({"SetJavaScriptEnabled"})
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (FULLSCREEN) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+        try {
+            getWindow().setStatusBarColor(Color.parseColor("${cfg.color}"));
+        } catch (Exception ignored) { }
+
+        web = new WebView(this);
+        setContentView(web);
+
+        WebSettings s = web.getSettings();
+        s.setJavaScriptEnabled(true);
+        s.setDomStorageEnabled(true);
+        s.setDatabaseEnabled(true);
+        s.setAllowFileAccess(true);
+        s.setAllowContentAccess(true);
+        s.setMediaPlaybackRequiresUserGesture(false);
+        s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        s.setSupportZoom(false);
+        s.setBuiltInZoomControls(false);
+        s.setLoadWithOverviewMode(true);
+        s.setUseWideViewPort(true);
+
+        web.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                String u = request.getUrl().toString();
+                if (u.startsWith("http") || u.startsWith("file") || u.startsWith("about")
+                        || u.startsWith("data") || u.startsWith("blob") || u.startsWith("javascript")) {
+                    return false;
+                }
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, request.getUrl()));
+                } catch (Exception ignored) { }
+                return true;
+            }
+        });
+
+        web.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> callback,
+                                             FileChooserParams params) {
+                if (fileCallback != null) fileCallback.onReceiveValue(null);
+                fileCallback = callback;
+                try {
+                    startActivityForResult(params.createIntent(), FILE_CHOOSER);
+                } catch (Exception e) {
+                    fileCallback = null;
+                    return false;
+                }
+                return true;
+            }
+        });
+
+        web.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String ua, String cd, String mime, long len) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                } catch (Exception ignored) { }
+            }
+        });
+
+        loadApp();
+    }
+
+    private void loadApp() {
+        if (PH.length == 0) {
+            web.loadUrl("file:///android_asset/index.html");
+        } else {
+            askKey(0);
+        }
+    }
+
+    private void askKey(final int i) {
+        final SharedPreferences sp = getSharedPreferences("app_keys", MODE_PRIVATE);
+        if (i >= PH.length) { render(); return; }
+        if (sp.contains(PH[i])) { askKey(i + 1); return; }
+        final EditText et = new EditText(this);
+        et.setSingleLine(true);
+        et.setHint(HINT[i]);
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle("API Key দিন (" + (i + 1) + "/" + PH.length + ")");
+        b.setMessage("এই অ্যাপ চালাতে কী লাগবে। কী শুধু আপনার ফোনে সেভ থাকবে।");
+        b.setView(et);
+        b.setCancelable(false);
+        b.setPositiveButton("সেভ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface d, int w) {
+                String v = et.getText().toString().trim();
+                if (v.length() > 0) sp.edit().putString(PH[i], v).apply();
+                askKey(i + 1);
+            }
+        });
+        b.setNegativeButton("বাদ দিন", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface d, int w) {
+                askKey(i + 1);
+            }
+        });
+        b.show();
+    }
+
+    private void render() {
+        SharedPreferences sp = getSharedPreferences("app_keys", MODE_PRIVATE);
+        String html = readAsset();
+        for (int i = 0; i < PH.length; i++) {
+            String v = sp.getString(PH[i], "");
+            StringBuilder sb = new StringBuilder();
+            for (char c : v.toCharArray()) {
+                if (c == 92 || c == 34 || c == 39 || c == 96 || c == 60 || c == 62 || c < 32) continue;
+                sb.append(c);
+            }
+            html = html.replace(PH[i], sb.toString());
+        }
+        web.loadDataWithBaseURL("file:///android_asset/", html, "text/html", "UTF-8", null);
+    }
+
+    private String readAsset() {
+        try {
+            InputStream in = getAssets().open("index.html");
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            byte[] buf = new byte[8192];
+            int n;
+            while ((n = in.read(buf)) > 0) out.write(buf, 0, n);
+            in.close();
+            return out.toString("UTF-8");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == FILE_CHOOSER && fileCallback != null) {
+            fileCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+            fileCallback = null;
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (FULLSCREEN && hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (web != null && web.canGoBack()) web.goBack();
+        else super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (web != null) web.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (web != null) web.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (web != null) { web.destroy(); web = null; }
+        super.onDestroy();
+    }
+}
+`);
+  files.push({ name: "app/src/main/assets/index.html", data: enc.encode(stripSecrets(prepared(), secrets)) });
+
+  const sizes = { mdpi: 48, hdpi: 72, xhdpi: 96, xxhdpi: 144, xxxhdpi: 192 };
+  for (const [d, px] of Object.entries(sizes)) {
+    files.push({ name: "app/src/main/res/mipmap-" + d + "/ic_launcher.png", data: await iconPng(px) });
+  }
+
+  T(".github/workflows/build.yml",
+`name: Build APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      - name: Build debug APK
+        run: gradle assembleDebug --no-daemon
+
+      - name: Rename APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk ${slug}.apk
+
+      - name: Publish release
+        env:
+          GH_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v\${{ github.run_number }}" ${slug}.apk --title "${slug} build \${{ github.run_number }}" --notes "Auto-built APK"
+`);
+  T("README_BN.txt",
+`HTML to APK Builder দিয়ে তৈরি প্রজেক্ট।
+
+বিল্ড করার উপায়:
+১) এই ZIP এক্সট্র্যাক্ট করে সব ফাইল (".github" ফোল্ডারসহ) একটি Public GitHub রিপোতে আপলোড করুন।
+২) রিপোর Settings > Actions > General > Workflow permissions এ "Read and write permissions" দিন।
+৩) Actions ট্যাব > "Build APK" > Run workflow চাপুন।
+৪) বিল্ড শেষ হলে Releases সেকশন থেকে ${slug}.apk ডাউনলোড করুন।
+
+অথবা Android Studio-তে এই ফোল্ডার খুলে Build > Build APK(s) চালান।
+`);
+  return { files, slug };
+}
+
+/* ---------- ZIP writer (store, no compression) ---------- */
+const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+function crc32(u8) { let c = 0xFFFFFFFF; for (let i = 0; i < u8.length; i++) c = CRC[(c ^ u8[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function makeZip(files) {
+  const parts = [], central = []; let offset = 0;
+  const w16 = (v, n) => v.setUint16(n.o, n.v, true);
+  for (const f of files) {
+    const nm = enc.encode(f.name), crc = crc32(f.data), size = f.data.length;
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true);
+    lh.setUint16(8, 0, true); lh.setUint16(10, 0, true); lh.setUint16(12, 0x5821, true);
+    lh.setUint32(14, crc, true); lh.setUint32(18, size, true); lh.setUint32(22, size, true);
+    lh.setUint16(26, nm.length, true); lh.setUint16(28, 0, true);
+    parts.push(new Uint8Array(lh.buffer), nm, f.data);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true);
+    ch.setUint16(10, 0, true); ch.setUint16(12, 0, true); ch.setUint16(14, 0x5821, true);
+    ch.setUint32(16, crc, true); ch.setUint32(20, size, true); ch.setUint32(24, size, true);
+    ch.setUint16(28, nm.length, true); ch.setUint32(42, offset, true);
+    central.push(new Uint8Array(ch.buffer), nm);
+    offset += 30 + nm.length + size;
+  }
+  let csize = 0; for (const c of central) csize += c.length;
+  const end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true);
+  end.setUint32(12, csize, true); end.setUint32(16, offset, true);
+  return new Blob([...parts, ...central, new Uint8Array(end.buffer)], { type: "application/zip" });
+}
+function download(blob, name) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+}
+
+/* ---------- ZIP button ---------- */
+$("zipBtn").onclick = async () => {
+  $("err2").textContent = "";
+  try {
+    const cfg = readConfig();
+    const { files, slug } = await buildProject(cfg);
+    download(makeZip(files), slug + "-android-project.zip");
+  } catch (e) { $("err2").textContent = "⚠️ " + e.message; }
+};
+
+/* ---------- GitHub auto-build ---------- */
+try { const t = localStorage.getItem("apkb_token"); if (t) { $("token").value = t; $("remember").checked = true; } } catch (e) {}
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function log(m) { const l = $("log"); l.classList.remove("hide"); l.textContent += m + "\n"; l.scrollTop = l.scrollHeight; }
+function step(id, state) { const li = document.querySelector('[data-s="' + id + '"]'); if (li) li.className = state; }
+function b64(u8) { let s = ""; for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000)); return btoa(s); }
+const encPath = p => p.split("/").map(encodeURIComponent).join("/");
+
+let TOKEN = "";
+async function gh(path, opts) {
+  opts = opts || {};
+  const r = await fetch("https://api.github.com" + path, {
+    method: opts.method || "GET",
+    headers: { Authorization: "Bearer " + TOKEN, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", "Content-Type": "application/json" },
+    body: opts.body ? JSON.stringify(opts.body) : undefined
+  });
+  let data = null; try { data = await r.json(); } catch (e) {}
+  return { ok: r.ok, status: r.status, data };
+}
+
+let building = false;
+$("buildBtn").onclick = async () => {
+  if (building) return;
+  $("err").textContent = ""; $("result").classList.add("hide"); $("result").innerHTML = ""; $("log").textContent = "";
+  let cfg;
+  try { cfg = readConfig(); } catch (e) { $("err").textContent = "⚠️ " + e.message; return; }
+  TOKEN = $("token").value.trim();
+  const repoName = slugify($("repo").value.trim() || cfg.name);
+  if (!TOKEN) { $("err").textContent = "⚠️ GitHub টোকেন দিন"; return; }
+  try { if ($("remember").checked) localStorage.setItem("apkb_token", TOKEN); else localStorage.removeItem("apkb_token"); } catch (e) {}
+
+  building = true; $("buildBtn").disabled = true; $("steps").classList.remove("hide");
+  document.querySelectorAll(".steps li").forEach(li => li.className = "");
+  let current = "auth";
+  try {
+    step("auth", "run");
+    const u = await gh("/user");
+    if (!u.ok) throw new Error(u.status === 401 ? "টোকেন ভুল বা মেয়াদ শেষ" : "লগইন ব্যর্থ (" + u.status + ")");
+    const login = u.data.login; log("লগইন: " + login);
+    step("auth", "done");
+
+    current = "repo"; step("repo", "run");
+    let rp = await gh("/user/repos", { method: "POST", body: { name: repoName, private: false, auto_init: true, description: "APK build for " + cfg.name } });
+    if (!rp.ok) {
+      if (rp.status === 422) { rp = await gh("/repos/" + login + "/" + repoName); if (!rp.ok) throw new Error("রিপোজিটরি পাওয়া যায়নি"); log("আগের রিপোজিটরি ব্যবহার হচ্ছে"); }
+      else throw new Error("রিপো তৈরি ব্যর্থ: " + ((rp.data && rp.data.message) || rp.status));
+    } else log("নতুন রিপো তৈরি হয়েছে");
+    const branch = rp.data.default_branch || "main";
+    const base = "/repos/" + login + "/" + repoName;
+    step("repo", "done");
+    await sleep(1500);
+
+    current = "push"; step("push", "run");
+    const { files, slug } = await buildProject(cfg);
+    let i = 0;
+    for (const f of files) {
+      i++;
+      let sha;
+      const ex = await gh(base + "/contents/" + encPath(f.name) + "?ref=" + encodeURIComponent(branch));
+      if (ex.ok && ex.data && ex.data.sha) sha = ex.data.sha;
+      let put;
+      for (let t = 0; t < 3; t++) {
+        put = await gh(base + "/contents/" + encPath(f.name), { method: "PUT", body: { message: "Add " + f.name, content: b64(f.data), branch, sha } });
+        if (put.ok) break;
+        if (put.status === 409 || put.status === 422) { const ex2 = await gh(base + "/contents/" + encPath(f.name) + "?ref=" + encodeURIComponent(branch)); if (ex2.ok) sha = ex2.data.sha; }
+        await sleep(1500);
+      }
+      if (!put.ok) throw new Error(f.name + " আপলোড ব্যর্থ: " + ((put.data && put.data.message) || put.status));
+      log("(" + i + "/" + files.length + ") " + f.name);
+    }
+    step("push", "done");
+
+    current = "run"; step("run", "run");
+    const prev = await gh(base + "/releases/latest");
+    const prevId = prev.ok ? prev.data.id : 0;
+    let disp;
+    for (let t = 0; t < 8; t++) {
+      disp = await gh(base + "/actions/workflows/build.yml/dispatches", { method: "POST", body: { ref: branch } });
+      if (disp.ok || disp.status === 204) break;
+      log("ওয়ার্কফ্লো প্রস্তুত হচ্ছে... আবার চেষ্টা");
+      await sleep(5000);
+    }
+    if (!(disp.ok || disp.status === 204)) throw new Error("বিল্ড চালু করা যায়নি: " + ((disp.data && disp.data.message) || disp.status) + " (টোকেনে workflow অনুমতি আছে কি?)");
+    log("বিল্ড চালু হয়েছে");
+    step("run", "done");
+
+    current = "wait"; step("wait", "run");
+    const started = Date.now();
+    let lastStatus = "";
+    while (Date.now() - started < 25 * 60 * 1000) {
+      await sleep(10000);
+      const rel = await gh(base + "/releases/latest");
+      if (rel.ok && rel.data.id !== prevId) {
+        const asset = (rel.data.assets || []).find(a => /\.apk$/i.test(a.name));
+        if (asset) {
+          step("wait", "done"); log("APK তৈরি সম্পন্ন!");
+          const r = $("result"); r.classList.remove("hide");
+          r.innerHTML = "";
+          const a = document.createElement("a");
+          a.className = "btn"; a.href = asset.browser_download_url; a.textContent = "⬇️ " + asset.name + " ডাউনলোড করুন";
+          r.appendChild(a);
+          const p = document.createElement("div"); p.className = "note";
+          p.textContent = "ডাউনলোড শেষে ফাইলটি খুলে ইনস্টল করুন। লিংক: " + asset.browser_download_url;
+          r.appendChild(p);
+          return;
+        }
+      }
+      const runs = await gh(base + "/actions/runs?per_page=1");
+      if (runs.ok && runs.data.workflow_runs && runs.data.workflow_runs[0]) {
+        const run = runs.data.workflow_runs[0];
+        const st = run.status + (run.conclusion ? " / " + run.conclusion : "");
+        if (st !== lastStatus) { log("বিল্ড অবস্থা: " + st); lastStatus = st; }
+        if (run.status === "completed" && run.conclusion && run.conclusion !== "success") {
+          throw new Error("বিল্ড ব্যর্থ হয়েছে। বিস্তারিত দেখুন: " + run.html_url);
+        }
+      }
+    }
+    throw new Error("সময় শেষ। রিপোর Actions ট্যাবে গিয়ে অবস্থা দেখুন: https://github.com/" + login + "/" + repoName + "/actions");
+  } catch (e) {
+    step(current, "fail");
+    let msg = e.message;
+    if (/secret|rule violation/i.test(msg)) msg += " — HTML-এ এখনো কোনো গোপন কী আছে। 'অটো সরান' টিক দিন, অথবা কোড থেকে কী নিজে মুছে ফেলুন।";
+    $("err").textContent = "⚠️ " + msg;
+    log("ত্রুটি: " + e.message);
+  } finally {
+    building = false; $("buildBtn").disabled = false;
+  }
+};
+</script>
+</body>
+</html>
